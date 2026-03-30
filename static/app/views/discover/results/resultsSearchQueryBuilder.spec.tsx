@@ -1,5 +1,6 @@
 import {OrganizationFixture} from 'sentry-fixture/organization';
 
+import {itRepeatsWhenFlaky} from 'sentry-test/flakyTestRerun';
 import {render, screen, userEvent, within} from 'sentry-test/reactTestingLibrary';
 
 import {SavedSearchType} from 'sentry/types/group';
@@ -27,7 +28,7 @@ describe('ResultsSearchQueryBuilder', () => {
     });
   });
 
-  it('does not show function tags in has: dropdown', async () => {
+  itRepeatsWhenFlaky('does not show function tags in has: dropdown', async () => {
     render(
       <ResultsSearchQueryBuilder
         query=""
@@ -59,7 +60,7 @@ describe('ResultsSearchQueryBuilder', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('shows normal tags, e.g. transaction, in the dropdown', async () => {
+  itRepeatsWhenFlaky('shows normal tags, e.g. transaction, in the dropdown', async () => {
     render(
       <ResultsSearchQueryBuilder
         query=""

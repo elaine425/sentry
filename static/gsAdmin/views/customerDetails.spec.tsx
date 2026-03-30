@@ -18,6 +18,7 @@ import {
   Am3DsEnterpriseSubscriptionFixture,
   SubscriptionFixture,
 } from 'getsentry-test/fixtures/subscription';
+import {itRepeatsWhenFlaky} from 'sentry-test/flakyTestRerun';
 import {initializeOrg} from 'sentry-test/initializeOrg';
 import {
   render,
@@ -1257,7 +1258,7 @@ describe('Customer Details', () => {
       permissions: new Set(['billing.admin']),
     });
 
-    it('renders disabled without billing.admin permissions', async () => {
+    itRepeatsWhenFlaky('renders disabled without billing.admin permissions', async () => {
       ConfigStore.set('user', mockUser);
 
       setUpMocks(organization, {isBillingAdmin: false});

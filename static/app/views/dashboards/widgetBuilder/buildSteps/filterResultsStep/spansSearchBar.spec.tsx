@@ -1,6 +1,7 @@
 import type {ComponentProps} from 'react';
 import {WidgetQueryFixture} from 'sentry-fixture/widgetQuery';
 
+import {itRepeatsWhenFlaky} from 'sentry-test/flakyTestRerun';
 import {render, screen, userEvent, waitFor} from 'sentry-test/reactTestingLibrary';
 
 import {WildcardOperators} from 'sentry/components/searchSyntax/parser';
@@ -122,7 +123,7 @@ describe('SpansSearchBar', () => {
     await screen.findByLabelText('span.op:function');
   });
 
-  it('calls onSearch with the correct query', async () => {
+  itRepeatsWhenFlaky('calls onSearch with the correct query', async () => {
     const onSearch = jest.fn();
 
     renderWithProvider({

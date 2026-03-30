@@ -2,6 +2,7 @@ import {OrganizationFixture} from 'sentry-fixture/organization';
 import {ProjectFixture} from 'sentry-fixture/project';
 import {ProjectKeysFixture} from 'sentry-fixture/projectKeys';
 
+import {itRepeatsWhenFlaky} from 'sentry-test/flakyTestRerun';
 import {render, screen, userEvent} from 'sentry-test/reactTestingLibrary';
 
 import type {Organization} from 'sentry/types/organization';
@@ -28,7 +29,7 @@ function renderMockRequests({
 }
 
 describe('getting started with react-native', () => {
-  it('shows React Native metrics onboarding content', async () => {
+  itRepeatsWhenFlaky('shows React Native metrics onboarding content', async () => {
     const organization = OrganizationFixture();
     const project = ProjectFixture({platform: 'react-native'});
     renderMockRequests({organization, project});

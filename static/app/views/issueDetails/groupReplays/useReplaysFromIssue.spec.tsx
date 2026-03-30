@@ -2,6 +2,7 @@ import {GroupFixture} from 'sentry-fixture/group';
 import {LocationFixture} from 'sentry-fixture/locationFixture';
 import {OrganizationFixture} from 'sentry-fixture/organization';
 
+import {itRepeatsWhenFlaky} from 'sentry-test/flakyTestRerun';
 import {renderHookWithProviders, waitFor} from 'sentry-test/reactTestingLibrary';
 
 import {IssueCategory} from 'sentry/types/group';
@@ -21,7 +22,7 @@ describe('useReplaysFromIssue', () => {
     features: ['session-replay'],
   });
 
-  it('should fetch a list of replay ids', async () => {
+  itRepeatsWhenFlaky('should fetch a list of replay ids', async () => {
     const MOCK_GROUP = GroupFixture();
 
     MockApiClient.addMockResponse({

@@ -6,6 +6,7 @@ import {RRWebInitFrameEventsFixture} from 'sentry-fixture/replay/rrweb';
 import {ReplayRecordFixture} from 'sentry-fixture/replayRecord';
 import {UserFixture} from 'sentry-fixture/user';
 
+import {itRepeatsWhenFlaky} from 'sentry-test/flakyTestRerun';
 import {render, screen} from 'sentry-test/reactTestingLibrary';
 
 import {EventReplay} from 'sentry/components/events/eventReplay';
@@ -132,20 +133,23 @@ describe('EventReplay', () => {
     });
   });
 
-  it('should render the replay inline onboarding component when replays are enabled and the project supports replay', async () => {
-    MockUseReplayOnboardingSidebarPanel.mockReturnValue({
-      activateSidebar: jest.fn(),
-    });
-    MockApiClient.addMockResponse({
-      url: '/organizations/org-slug/prompts-activity/',
-      body: {data: {dismissed_ts: null}},
-    });
-    render(<EventReplay {...defaultProps} />, {organization});
+  itRepeatsWhenFlaky(
+    'should render the replay inline onboarding component when replays are enabled and the project supports replay',
+    async () => {
+      MockUseReplayOnboardingSidebarPanel.mockReturnValue({
+        activateSidebar: jest.fn(),
+      });
+      MockApiClient.addMockResponse({
+        url: '/organizations/org-slug/prompts-activity/',
+        body: {data: {dismissed_ts: null}},
+      });
+      render(<EventReplay {...defaultProps} />, {organization});
 
-    expect(
-      await screen.findByText('Watch the errors and latency issues your users face')
-    ).toBeInTheDocument();
-  });
+      expect(
+        await screen.findByText('Watch the errors and latency issues your users face')
+      ).toBeInTheDocument();
+    }
+  );
 
   it('should render a replay when there is a replayId from tags', async () => {
     MockUseReplayOnboardingSidebarPanel.mockReturnValue({

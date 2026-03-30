@@ -3,6 +3,7 @@ import MockDate from 'mockdate';
 import {TransactionEventFixture} from 'sentry-fixture/event';
 import {ProjectFixture} from 'sentry-fixture/project';
 
+import {itRepeatsWhenFlaky} from 'sentry-test/flakyTestRerun';
 import {
   render,
   screen,
@@ -1451,8 +1452,7 @@ describe('trace view', () => {
       });
     });
 
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('arrowup+shift scrolls to the start of the list', async () => {
+    itRepeatsWhenFlaky('arrowup+shift scrolls to the start of the list', async () => {
       const {virtualizedContainer} = await keyboardNavigationTestSetup();
 
       let rows = getVirtualizedRows(virtualizedContainer);

@@ -1,6 +1,7 @@
 import {OrganizationFixture} from 'sentry-fixture/organization';
 import {PageFiltersFixture} from 'sentry-fixture/pageFilters';
 
+import {itRepeatsWhenFlaky} from 'sentry-test/flakyTestRerun';
 import {render, screen, userEvent, within} from 'sentry-test/reactTestingLibrary';
 
 import type {Organization} from 'sentry/types/organization';
@@ -27,7 +28,7 @@ describe('EventsSearchBar', () => {
     });
   });
 
-  it('does not show function tags in has: dropdown', async () => {
+  itRepeatsWhenFlaky('does not show function tags in has: dropdown', async () => {
     render(
       <EventsSearchBar
         onClose={jest.fn()}

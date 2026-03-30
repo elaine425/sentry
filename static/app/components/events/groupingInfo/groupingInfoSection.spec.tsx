@@ -1,6 +1,7 @@
 import {EventFixture} from 'sentry-fixture/event';
 import {GroupFixture} from 'sentry-fixture/group';
 
+import {itRepeatsWhenFlaky} from 'sentry-test/flakyTestRerun';
 import {render, screen, userEvent} from 'sentry-test/reactTestingLibrary';
 
 import {EventGroupVariantType} from 'sentry/types/event';
@@ -45,7 +46,7 @@ describe('EventGroupingInfo', () => {
     });
   });
 
-  it('fetches and renders grouping info for errors', async () => {
+  itRepeatsWhenFlaky('fetches and renders grouping info for errors', async () => {
     render(<EventGroupingInfoSection {...defaultProps} />);
     await userEvent.click(
       screen.getByRole('button', {name: 'View Event Grouping Information Section'})

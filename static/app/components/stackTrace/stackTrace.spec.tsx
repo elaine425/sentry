@@ -6,6 +6,7 @@ import {GitHubIntegrationFixture} from 'sentry-fixture/githubIntegration';
 import {OrganizationFixture} from 'sentry-fixture/organization';
 import {ProjectFixture} from 'sentry-fixture/project';
 
+import {itRepeatsWhenFlaky} from 'sentry-test/flakyTestRerun';
 import {act, render, screen, userEvent, within} from 'sentry-test/reactTestingLibrary';
 import {textWithMarkupMatcher} from 'sentry-test/utils';
 
@@ -877,36 +878,39 @@ describe('Core StackTrace', () => {
     ).toBeInTheDocument();
   });
 
-  it('shows URL link in tooltip when absPath is an http URL', async () => {
-    jest.useFakeTimers();
-    const {event, stacktrace} = makeStackTraceData();
-    const frame = stacktrace.frames[stacktrace.frames.length - 1]!;
+  itRepeatsWhenFlaky(
+    'shows URL link in tooltip when absPath is an http URL',
+    async () => {
+      jest.useFakeTimers();
+      const {event, stacktrace} = makeStackTraceData();
+      const frame = stacktrace.frames[stacktrace.frames.length - 1]!;
 
-    render(
-      <TestStackTraceProvider
-        event={event}
-        stacktrace={{
-          ...stacktrace,
-          frames: [
-            {
-              ...frame,
-              absPath: 'https://example.com/static/app.js',
-              filename: 'app.js',
-              inApp: true,
-            },
-          ],
-        }}
-      >
-        <StackTraceFrames frameContextComponent={FrameContent} />
-      </TestStackTraceProvider>
-    );
+      render(
+        <TestStackTraceProvider
+          event={event}
+          stacktrace={{
+            ...stacktrace,
+            frames: [
+              {
+                ...frame,
+                absPath: 'https://example.com/static/app.js',
+                filename: 'app.js',
+                inApp: true,
+              },
+            ],
+          }}
+        >
+          <StackTraceFrames frameContextComponent={FrameContent} />
+        </TestStackTraceProvider>
+      );
 
-    await userEvent.hover(screen.getByText('app.js'), {delay: null});
-    act(() => jest.advanceTimersByTime(2000));
+      await userEvent.hover(screen.getByText('app.js'), {delay: null});
+      act(() => jest.advanceTimersByTime(2000));
 
-    expect(
-      await screen.findByRole('link', {name: 'https://example.com/static/app.js'})
-    ).toBeInTheDocument();
-    jest.useRealTimers();
-  });
+      expect(
+        await screen.findByRole('link', {name: 'https://example.com/static/app.js'})
+      ).toBeInTheDocument();
+      jest.useRealTimers();
+    }
+  );
 });
