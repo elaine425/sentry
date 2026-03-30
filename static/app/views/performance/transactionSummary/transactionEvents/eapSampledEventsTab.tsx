@@ -148,7 +148,7 @@ function FilterBar(props: FilterBarProps) {
     });
 
     // do not propagate pagination when making a new search
-    const searchQueryParams = omit(queryParams, 'cursor');
+    const searchQueryParams = omit(queryParams, ['cursor', SEGMENT_SPANS_CURSOR]);
 
     navigate({
       pathname: location.pathname,
