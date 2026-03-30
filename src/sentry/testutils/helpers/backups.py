@@ -826,6 +826,7 @@ class ExhaustiveFixtures(Fixtures):
             num_samples=100,
             condition_hash="abc123def456abc123def456abc123def4560000",
             sample_rate=0.5,
+            created_by_id=owner_id,
         )
         CustomDynamicSamplingRuleProject.objects.create(
             custom_dynamic_sampling_rule=custom_rule,
