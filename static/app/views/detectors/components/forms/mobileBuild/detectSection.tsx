@@ -2,11 +2,12 @@ import {Fragment, useMemo} from 'react';
 import styled from '@emotion/styled';
 
 import {Flex, Stack} from '@sentry/scraps/layout';
-import {Heading, Text} from '@sentry/scraps/text';
+import {Text} from '@sentry/scraps/text';
 
 import {NumberField} from 'sentry/components/forms/fields/numberField';
 import {SegmentedRadioField} from 'sentry/components/forms/fields/segmentedRadioField';
 import {Container} from 'sentry/components/workflowEngine/ui/container';
+import {Section} from 'sentry/components/workflowEngine/ui/section';
 import {t} from 'sentry/locale';
 import {
   DETECTOR_PRIORITY_LEVEL_TO_PRIORITY_LEVEL,
@@ -41,7 +42,7 @@ function getThresholdTypeOptions(): Array<[string, string, string]> {
   ]);
 }
 
-export function MobileBuildDetectSection() {
+export function MobileBuildDetectSection({step}: {step?: number}) {
   const thresholdType =
     usePreprodDetectorFormField(PREPROD_DETECTOR_FORM_FIELDS.thresholdType) ?? 'absolute';
   const projectId = usePreprodDetectorFormField(PREPROD_DETECTOR_FORM_FIELDS.projectId);
@@ -56,8 +57,7 @@ export function MobileBuildDetectSection() {
   return (
     <Fragment>
       <Container>
-        <Stack gap="md">
-          <Heading as="h3">{t('Choose Your Measurement')}</Heading>
+        <Section step={step} title={t('Choose Your Measurement')}>
           <MetricField
             name={PREPROD_DETECTOR_FORM_FIELDS.measurement}
             choices={metricOptions}
@@ -65,24 +65,23 @@ export function MobileBuildDetectSection() {
             flexibleControlStateSize
             preserveOnUnmount
           />
-        </Stack>
+        </Section>
       </Container>
 
       <Container>
-        <Stack gap="lg">
-          <section>
-            <Heading as="h3">{t('Issue Detection')}</Heading>
-            <MeasurementField
-              name={PREPROD_DETECTOR_FORM_FIELDS.thresholdType}
-              choices={thresholdTypeOptions}
-              inline={false}
-              flexibleControlStateSize
-              preserveOnUnmount
-            />
-          </section>
-
+        <Section
+          step={step === undefined ? undefined : step + 1}
+          title={t('Issue Detection')}
+        >
+          <MeasurementField
+            name={PREPROD_DETECTOR_FORM_FIELDS.thresholdType}
+            choices={thresholdTypeOptions}
+            inline={false}
+            flexibleControlStateSize
+            preserveOnUnmount
+          />
           <ThresholdSection thresholdType={thresholdType} />
-        </Stack>
+        </Section>
       </Container>
     </Fragment>
   );
