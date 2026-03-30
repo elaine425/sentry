@@ -218,7 +218,7 @@ function AgentNameForm({
   projects: Project[];
   projectsWithPreferredAgent: AutofixAutomationSettings[];
 }) {
-  const {data: integrations} = useQuery(
+  const {data: integrations, isPending: isIntegrationsPending} = useQuery(
     organizationIntegrationsCodingAgents(organization)
   );
   const rawAgentOptions = useAgentOptions({
@@ -310,6 +310,7 @@ function AgentNameForm({
               disabled={
                 !canWrite ||
                 isBulkMutatingAgent ||
+                isIntegrationsPending ||
                 projectsWithPreferredAgent.length === projects.length
               }
               onClick={async () => {
@@ -321,7 +322,7 @@ function AgentNameForm({
               {tn(
                 'Set for the existing project',
                 'Set for all existing projects',
-                projectsWithPreferredAgent.length
+                projects.length
               )}
             </Button>
             <Text variant="secondary" size="sm">
@@ -428,12 +429,12 @@ function CreatePrForm({
                 ? tn(
                     'Enable for the existing project',
                     'Enable for all existing projects',
-                    projectsWithCreatePr.length
+                    projects.length
                   )
                 : tn(
                     'Disable for the existing project',
                     'Disable for all existing projects',
-                    projectsWithCreatePr.length
+                    projects.length
                   )}
             </Button>
             <Text variant="secondary" size="sm">
