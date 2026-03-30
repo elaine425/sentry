@@ -382,6 +382,11 @@ class Factories:
         if not name:
             name = petname.generate(2, " ", letters=10).title()
 
+        # Backwards compatibility for callers still passing region=.
+        region = kwargs.pop("region", None)
+        if cell is None and region is not None:
+            cell = region
+
         with contextlib.ExitStack() as ctx:
             if cell is None or SiloMode.get_current_mode() == SiloMode.MONOLITH:
                 cell_name = get_local_cell().name
