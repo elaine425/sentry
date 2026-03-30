@@ -99,7 +99,7 @@ def process_mention_for_slack(
             slack_user_id=slack_user_id,
         )
         if not user:
-            lifecycle.record_failure(failure_reason=ProcessMentionFailureReason.IDENTITY_NOT_LINKED)
+            lifecycle.record_halt(halt_reason=ProcessMentionFailureReason.IDENTITY_NOT_LINKED)
             # In a thread, show the prompt in the thread; top-level, show in the channel.
             _send_link_identity_prompt(
                 entrypoint=entrypoint,
