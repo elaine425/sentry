@@ -385,6 +385,7 @@ def if_combinator(definition: AggregateDefinition) -> AggregateDefinition:
         ],
         infer_search_type_from_arguments=definition.infer_search_type_from_arguments,
         processor=definition.processor,
+        attribute_resolver=definition.attribute_resolver,
     )
     return if_definition
 
