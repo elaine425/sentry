@@ -365,7 +365,6 @@ export function ProjectGeneralSettings({project, onChangeSlug}: Props) {
           fields={[
             fields.allowedDomains,
             fields.scrapeJavaScript,
-            fields.scmSourceContextEnabled,
             fields.securityToken,
             fields.securityTokenHeader,
             fields.verifySSL,
@@ -392,6 +391,12 @@ export function ProjectGeneralSettings({project, onChangeSlug}: Props) {
               </TextBlock>
             </PanelAlert>
           )}
+        />
+
+        <JsonForm
+          {...jsonFormProps}
+          title={t('Source Code')}
+          fields={[fields.scmSourceContextEnabled]}
         />
       </Form>
 

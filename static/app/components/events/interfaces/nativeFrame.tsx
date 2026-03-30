@@ -479,6 +479,7 @@ function NativeFrame({
           registersMeta={registersMeta}
           frameMeta={frameMeta}
           platform={platform}
+          hasScmSourceContext={hasScmSourceContext}
         />
       )}
     </StackTraceFrame>

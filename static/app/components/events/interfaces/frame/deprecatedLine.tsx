@@ -363,6 +363,7 @@ function DeprecatedLine({
         registersMeta={registersMeta}
         frameMeta={frameMeta}
         platform={propPlatform}
+        hasScmSourceContext={hasScmSourceContext}
       />
     </li>
   );
